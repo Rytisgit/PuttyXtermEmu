@@ -4,8 +4,42 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>1.0.0</Version>
-    <Configurations>Debug;Release;LinuxRelease</Configurations>
+    <Version>0.5</Version>
+    <Configurations>Debug;Release</Configurations>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>PuttyXtermEmulator</PackageId>
+    <Title>PuttyXtermEmulator</Title>
+    <Authors>rytispetronis</Authors>
+    <Product>PuttyXtermEmulator</Product>
+    <Description>An In-Memory UTF8 XTerm Emulator based on Putty. Send console control codes and read the virtual screen to see what happened.</Description>
+    <PackageProjectUrl>https://github.com/Rytisgit/PuttyXtermEmu</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Rytisgit/PuttyXtermEmu</RepositoryUrl>
+    <PackageTags>xterm;console;emulator;in-memory;memory</PackageTags>
+    <PackageReleaseNotes>First Version</PackageReleaseNotes>
+    <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <BaseOutputPath>$(SolutionDir)bin\</BaseOutputPath>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\LICENCE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="libPuttyDLL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes\win-x64\native\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <!--<None Include="libPuttyDLL.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes\linux-x64\native\</PackagePath>
+      <Pack>true</Pack>
+    </None>-->
+    <None Include="PuttyXtermEmulator.targets">
+      <PackagePath>build\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
 
 </Project>

@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuttySharp", "PuttySharp\PuttySharp.csproj", "{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PuttyDLL", "Putty\WINDOWS\VS2012\putty\PuttyDLL.vcxproj", "{8F44624A-D188-4188-B9AA-5F99F20723E1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlimPutty", "SlimPutty\SlimPutty.vcxitems", "{B827B9A1-9934-42C6-96D1-532E87369D1C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|x64.Build.0 = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Debug|x86.Build.0 = Debug|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|x64.ActiveCfg = Release|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|x64.Build.0 = Release|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|x86.ActiveCfg = Release|Any CPU
+		{E47550CF-74A6-4273-A1B1-7DB46FEBA94D}.Release|x86.Build.0 = Release|Any CPU
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|Any CPU.Build.0 = Debug|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|x64.ActiveCfg = Debug|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|x64.Build.0 = Debug|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|x86.ActiveCfg = Debug|Win32
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Debug|x86.Build.0 = Debug|Win32
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|Any CPU.ActiveCfg = Release|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|Any CPU.Build.0 = Release|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|x64.ActiveCfg = Release|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|x64.Build.0 = Release|x64
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|x86.ActiveCfg = Release|Win32
+		{8F44624A-D188-4188-B9AA-5F99F20723E1}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {444BEBD8-B324-4310-8DAE-CFA1DC4597C3}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SlimPutty\SlimPutty.vcxitems*{8f44624a-d188-4188-b9aa-5f99f20723e1}*SharedItemsImports = 4
+		SlimPutty\SlimPutty.vcxitems*{b827b9a1-9934-42c6-96d1-532e87369d1c}*SharedItemsImports = 9
+	EndGlobalSection
+EndGlobal

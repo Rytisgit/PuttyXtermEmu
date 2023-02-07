@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Project>
+        <ItemGroup Condition=" '$(OS)' == 'WINDOWS_NT'">
+                <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\*.dll">
+                        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                        <Link>libPuttyDLL.dll</Link>
+                </None>
+        </ItemGroup>
+        <ItemGroup Condition=" '$(OS)' == 'UNIX'">
+                <None Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\*.so">
+                        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                        <Link>libPuttyDLL.so</Link>
+                </None>
+        </ItemGroup>
+</Project>

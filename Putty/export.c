@@ -4,9 +4,9 @@
  */
 
 
-#include "../../../puttymem.h"
-#include "../../../terminal.h"
-#include "../../../putty.h"
+#include "puttymem.h"
+#include "terminal.h"
+#include "putty.h"
 
 #ifdef _WIN32
 #define EXPORT(rt) __declspec(dllexport) rt
