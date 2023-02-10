@@ -1,15 +1,113 @@
 <?xml version="1.0"?>
-<Project>
-        <ItemGroup Condition=" '$(OS)' == 'WINDOWS_NT'">
-                <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\*.dll">
-                        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-                        <Link>libPuttyDLL.dll</Link>
-                </None>
-        </ItemGroup>
-        <ItemGroup Condition=" '$(OS)' == 'UNIX'">
-                <None Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\*.so">
-                        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-                        <Link>libPuttyDLL.so</Link>
-                </None>
-        </ItemGroup>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!-- if ShouldIncludeNativePutty == False then don't include the native libPuttyDLL -->
+    <PropertyGroup>
+      <ShouldIncludeNativePutty Condition="'$(IsUnoHead)' == 'True' and '$(UnoRuntimeIdentifier)' == 'WebAssembly' ">False</ShouldIncludeNativePutty>
+      <ShouldIncludeNativePutty Condition=" '$(ShouldIncludeNativePutty)' != 'False' ">True</ShouldIncludeNativePutty>
+    </PropertyGroup>
+
+    <!-- get the preferred architecture -->
+    <PropertyGroup>
+        <!-- handle VS 2017 live unit testing -->
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and '$(BuildingForLiveUnitTesting)' == 'true' and '$(PlatformTarget)' == '' ">x86</PreferredNativePutty>   
+
+        <!-- handle x86/x64 specifically -->
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and ( '$(PlatformTarget)' == 'x64' or '$(PlatformTarget)' == 'x86' ) ">$(PlatformTarget)</PreferredNativePutty> 
+        <!-- handle Any CPU, considering Prefer32Bit - but only on Windows as macOS and Linux ignore this flag -->
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and '$(OS)' != 'Unix' and '$(Prefer32Bit)' == 'False' ">x64</PreferredNativePutty>  
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and '$(OS)' != 'Unix' and '$(Prefer32Bit)' == 'True' ">x86</PreferredNativePutty> 
+        <!-- fall back to x64 on 64-bit machines -->
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and '$(MSBuildRuntimeType)' != 'Core' and '$([System.Environment]::Is64BitOperatingSystem)' == 'True' ">x64</PreferredNativePutty> 
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' and '$(MSBuildRuntimeType)' == 'Core' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64' ">x64</PreferredNativePutty> 
+        <!-- fall back to x86 -->
+        <PreferredNativePutty Condition=" '$(PreferredNativePutty)' == '' ">x86</PreferredNativePutty>
+    </PropertyGroup>
+
+    <!-- get the preferred paths -->
+    <PropertyGroup>
+        <PreferredWindowsNativePuttyPath>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(PreferredNativePutty)\native\libPuttyDLL.dll</PreferredWindowsNativePuttyPath>
+        <PreferredOSXNativePuttyPath>$(MSBuildThisFileDirectory)..\..\runtimes\osx\native\libPuttyDLL.dylib</PreferredOSXNativePuttyPath>
+        <PreferredLinuxNativePuttyPath>$(MSBuildThisFileDirectory)..\..\runtimes\linux-$(PreferredNativePutty)\native\libPuttyDLL.so</PreferredLinuxNativePuttyPath>
+    </PropertyGroup>
+
+    <ItemGroup Condition=" '$(ShouldIncludeNativePutty)' != 'False' ">
+        <None Include="$(PreferredWindowsNativePuttyPath)" Condition=" Exists('$(PreferredWindowsNativePuttyPath)') ">
+            <Visible>false</Visible>
+            <Link>$([System.IO.Path]::GetFilename('$(PreferredWindowsNativePuttyPath)'))</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="$(PreferredOSXNativePuttyPath)" Condition=" Exists('$(PreferredOSXNativePuttyPath)') ">
+            <Visible>false</Visible>
+            <Link>$([System.IO.Path]::GetFilename('$(PreferredOSXNativePuttyPath)'))</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="$(PreferredLinuxNativePuttyPath)" Condition=" Exists('$(PreferredLinuxNativePuttyPath)') ">
+            <Visible>false</Visible>
+            <Link>$([System.IO.Path]::GetFilename('$(PreferredLinuxNativePuttyPath)'))</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <!-- handle the case where this is a Xamarin.Mac Full app/extension -->
+    <ItemGroup Condition=" '$(ShouldIncludeNativePutty)' != 'False' and '$(XamarinMacFrameworkRoot)' != '' and '$(TargetFrameworkIdentifier)' != 'Xamarin.Mac' and '$(UseXamMacFullFramework)' == 'true' and ('$(OutputType)' == 'Exe' or '$(IsAppExtension)' == 'true') ">
+        <NativeReference Include="$(PreferredOSXNativePuttyPath)" Condition=" Exists('$(PreferredOSXNativePuttyPath)') ">
+            <Visible>false</Visible>
+            <Link>$([System.IO.Path]::GetFilename('$(PreferredOSXNativePuttyPath)'))</Link>
+            <Kind>Dynamic</Kind>
+        </NativeReference>
+    </ItemGroup>
+
+    <!-- a special case for Any CPU -->
+    <ItemGroup Condition=" '$(ShouldIncludeNativePutty)' != 'False' and ( '$(PlatformTarget)' != 'x64' and '$(PlatformTarget)' != 'x86' ) ">
+        <!-- Windows -->
+        <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\libPuttyDLL.dll"
+              Condition="Exists('$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\libPuttyDLL.dll')">
+            <Visible>false</Visible>
+            <Link>x86\libPuttyDLL.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libPuttyDLL.dll"
+              Condition="Exists('$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libPuttyDLL.dll')">
+            <Visible>false</Visible>
+            <Link>x64\libPuttyDLL.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- Linux -->
+        <None Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x86\native\libPuttyDLL.so"
+              Condition="Exists('$(MSBuildThisFileDirectory)..\runtimes\linux-x86\native\libPuttyDLL.so')">
+            <Visible>false</Visible>
+            <Link>x86\libPuttyDLL.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\libPuttyDLL.so"
+              Condition="Exists('$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\libPuttyDLL.so')">
+            <Visible>false</Visible>
+            <Link>x64\libPuttyDLL.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="$(MSBuildThisFileDirectory)..\runtimes\linux-arm\native\libPuttyDLL.so"
+              Condition="Exists('$(MSBuildThisFileDirectory)..\runtimes\linux-arm\native\libPuttyDLL.so')">
+            <Visible>false</Visible>
+            <Link>arm\libPuttyDLL.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+  
+    <PropertyGroup>
+      <_PuttyNativeLibraryCurrPath>$([System.IO.Path]::GetDirectoryName('$(MSBuildThisFileDirectory)'))</_PuttyNativeLibraryCurrPath>
+      <_PuttyNativeLibraryDirName>$([System.IO.Path]::GetFileName('$(_PuttyNativeLibraryCurrPath)'))</_PuttyNativeLibraryDirName>
+      <_PuttyNativeLibraryRootDir>$(MSBuildThisFileDirectory)..\..\build\$(_PuttyNativeLibraryDirName)\</_PuttyNativeLibraryRootDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <PuttyStaticLibraryPath>$(_PuttyNativeLibraryRootDir)libPuttyDLL.bc</PuttyStaticLibraryPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PuttyStaticLibrary Include="$(PuttyStaticLibraryPath)\**\*.bc" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsUnoHead)' == 'True' and '$(UnoRuntimeIdentifier)' == 'WebAssembly'">
+      <Content Include="@(PuttyStaticLibrary)" />
+    </ItemGroup>
 </Project>

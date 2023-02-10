@@ -46,3 +46,7 @@ Packages/
 *.dll
 
 /PuttySharp/obj/*
+
+/Putty/WINDOWS/VS2012/putty/x64/
+/Putty/WINDOWS/VS2012/putty/x86/
+/dockcross*

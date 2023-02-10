@@ -4,7 +4,7 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>0.5</Version>
+    <Version>0.9.26</Version>
     <Configurations>Debug;Release</Configurations>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>PuttyXtermEmulator</PackageId>
@@ -14,11 +14,12 @@
     <Description>An In-Memory UTF8 XTerm Emulator based on Putty. Send console control codes and read the virtual screen to see what happened.</Description>
     <PackageProjectUrl>https://github.com/Rytisgit/PuttyXtermEmu</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rytisgit/PuttyXtermEmu</RepositoryUrl>
-    <PackageTags>xterm;console;emulator;in-memory;memory</PackageTags>
+    <PackageTags>xterm;console;emulator;in-memory;memory;windows;linux;cross-platform;wasm;webassembly</PackageTags>
     <PackageReleaseNotes>First Version</PackageReleaseNotes>
     <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <BaseOutputPath>$(SolutionDir)bin\</BaseOutputPath>
+    <IncludeSymbols>False</IncludeSymbols>
   </PropertyGroup>
   
   <ItemGroup>
@@ -26,18 +27,34 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="libPuttyDLL.dll">
+    <None Include="..\bin\x64\Release\libPuttyDLL.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes\win-x64\native\</PackagePath>
       <Pack>true</Pack>
     </None>
-    <!--<None Include="libPuttyDLL.so">
+    <None Include="..\bin\x86\Release\libPuttyDLL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes\win-x86\native\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+
+    <None Include="..\bin\wasm\Release\libPuttyDLL.bc\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>build\netstandard2.0\libPuttyDLL.bc\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Include="..\bin\x64\Release\libPuttyDLL.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes\linux-x64\native\</PackagePath>
       <Pack>true</Pack>
-    </None>-->
+    </None>
+    <None Include="..\bin\x86\Release\libPuttyDLL.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes\linux-x86\native\</PackagePath>
+      <Pack>true</Pack>
+    </None>
     <None Include="PuttyXtermEmulator.targets">
-      <PackagePath>build\</PackagePath>
+      <PackagePath>build\netstandard2.0\</PackagePath>
       <Pack>true</Pack>
     </None>
   </ItemGroup>
