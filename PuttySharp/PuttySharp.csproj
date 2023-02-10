@@ -4,22 +4,25 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>0.9.26</Version>
+    <Version>1.0.0</Version>
     <Configurations>Debug;Release</Configurations>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>PuttyXtermEmulator</PackageId>
     <Title>PuttyXtermEmulator</Title>
-    <Authors>rytispetronis</Authors>
+    <Authors>Rytis Petronis</Authors>
     <Product>PuttyXtermEmulator</Product>
-    <Description>An In-Memory UTF8 XTerm Emulator based on Putty. Send console control codes and read the virtual screen to see what happened.</Description>
+    <Description>An In-Memory UTF-8 XTerm Emulator based on Putty. Send ANSI escape codes and data then read the virtual screen to see what happened.</Description>
     <PackageProjectUrl>https://github.com/Rytisgit/PuttyXtermEmu</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rytisgit/PuttyXtermEmu</RepositoryUrl>
-    <PackageTags>xterm;console;emulator;in-memory;memory;windows;linux;cross-platform;wasm;webassembly</PackageTags>
-    <PackageReleaseNotes>First Version</PackageReleaseNotes>
+    <PackageTags>xterm;console;emulator;in-memory;memory;windows;linux;cross-platform;wasm;webassembly;putty;ansi;vt;vt100</PackageTags>
+    <PackageReleaseNotes>It's released!</PackageReleaseNotes>
     <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <BaseOutputPath>$(SolutionDir)bin\</BaseOutputPath>
     <IncludeSymbols>False</IncludeSymbols>
+    <RootNamespace>Putty</RootNamespace>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright (c) Rytis Petronis 2023</Copyright>
   </PropertyGroup>
   
   <ItemGroup>
@@ -52,6 +55,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes\linux-x86\native\</PackagePath>
       <Pack>true</Pack>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="PuttyXtermEmulator.targets">
       <PackagePath>build\netstandard2.0\</PackagePath>

@@ -108,6 +108,6 @@
       <PuttyStaticLibrary Include="$(PuttyStaticLibraryPath)\**\*.bc" />
     </ItemGroup>
     <ItemGroup Condition="'$(IsUnoHead)' == 'True' and '$(UnoRuntimeIdentifier)' == 'WebAssembly'">
-      <Content Include="@(PuttyStaticLibrary)" />
+      <Content Include="@(PuttyStaticLibrary)" Visible="false" />
     </ItemGroup>
 </Project>
